@@ -331,3 +331,64 @@ h2 {
         max-width: 800px;
     }
 }
+/* ============================================
+   STYL DLA GALERII (NOWE)
+   ============================================ */
+
+/* Siatka zdjęć - układa zdjęcia obok siebie */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 10px 0;
+}
+
+/* Pojedynczy kafelek zdjęcia */
+.gallery-item {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 150px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+/* Efekt po najechaniu myszką */
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+/* Zdjęcie wewnątrz kafelka */
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Sprawia, że zdjęcie wypełnia cały kafelek bez rozciągania */
+}
+
+/* Przycisk usuwania (czerwony iksik) */
+.gallery-item .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* Kontener dla zawartości galerii */
+.gallery-content {
+    padding: calc(var(--spacing-unit) * 2);
+}
