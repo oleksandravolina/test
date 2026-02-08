@@ -152,48 +152,51 @@ function getLocation() {
     resultBox.classList.add('hidden');
 
     if (!navigator.geolocation) {
-        statusBox.textContent = '❌ Geolocation is not supported by your browser';
-        logError('Geolocation not supported');
+        statusBox.textContent = '❌ Geolocation not supported';
         return;
     }
 
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    };
-
     navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             
-            log(`Location found: ${lat}, ${lon}`);
-            
-            document.getElementById('latitude').textContent = lat.toFixed(6);
-            document.getElementById('longitude').textContent = lon.toFixed(6);
-            
-            statusBox.classList.add('hidden');
-            resultBox.classList.remove('hidden');
+            log(`Coordinates found: ${lat}, ${lon}`);
+
+            try {
+                // Pobieranie nazwy miejscowości z darmowego API OpenStreetMap
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                
+                // Wyciągamy miasto, wieś lub osadę
+                const city = data.address.city || data.address.town || data.address.village || data.address.suburb || "Unknown location";
+                const country = data.address.country;
+
+                // Wyświetlamy nazwę zamiast samych cyfr
+                document.getElementById('latitude').textContent = city; 
+                document.getElementById('longitude').textContent = country;
+                
+                // Zmieniamy etykiety w HTML, żeby pasowały
+                document.querySelector('#locationResult p:nth-child(1) strong').textContent = "City: ";
+                document.querySelector('#locationResult p:nth-child(2) strong').textContent = "Country: ";
+
+                statusBox.classList.add('hidden');
+                resultBox.classList.remove('hidden');
+                log(`Location resolved to: ${city}, ${country}`);
+
+            } catch (error) {
+                logError("Geocoding failed: " + error);
+                // Jeśli API zawiedzie, pokaż chociaż cyfry
+                document.getElementById('latitude').textContent = lat.toFixed(4);
+                document.getElementById('longitude').textContent = lon.toFixed(4);
+                statusBox.classList.add('hidden');
+                resultBox.classList.remove('hidden');
+            }
         },
         (error) => {
-            logError(`Geolocation error: ${error.message}`);
-            let errorMessage = '❌ Error getting location';
-            
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    errorMessage = '❌ User denied the request for Geolocation';
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    errorMessage = '❌ Location information is unavailable';
-                    break;
-                case error.TIMEOUT:
-                    errorMessage = '❌ The request to get user location timed out';
-                    break;
-            }
-            statusBox.textContent = errorMessage;
-        },
-        options
+            logError(`Error: ${error.message}`);
+            statusBox.textContent = '❌ Error getting location';
+        }
     );
 }
 
