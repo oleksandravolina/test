@@ -1,56 +1,160 @@
-<div id="featuresView" class="view">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple Progressive Web App demonstrating native device features and offline functionality.">
+    <meta name="theme-color" content="#2196F3">
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Simple PWA</title>
+</head>
+<body>
+    <div id="offlineIndicator" class="offline-indicator hidden">
+        <p>📡 You are offline. Viewing cached content.</p>
+    </div>
+
+    <div id="app" class="app-container">
+        
+        <div id="homeView" class="view active">
+            <header class="header">
+                <h1>Simple PWA</h1>
+                <p class="subtitle">Native Features Demo</p>
+            </header>
+            
+            <main class="home-content">
+                <p class="welcome-text">Welcome to this simple Progressive Web App!</p>
+                
+                <div class="features-preview">
+                    <h2>Available Features</h2>
+                    <ul class="feature-list">
+                        <li>📍 Geolocation - Get your current location</li>
+                        <li>📸 Camera - Capture photos with your device</li>
+                        <li>🖼️ Gallery - View and manage saved photos</li>
+                        <li>🔔 Notifications - Receive browser notifications</li>
+                        <li>📳 Vibration - Test device vibration feedback</li>
+                        <li>📴 Offline Support - Works without internet connection</li>
+                    </ul>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="showView('featuresView')">
+                        Explore Features
+                    </button>
+                    <button class="btn btn-secondary" onclick="showView('galleryView')">
+                        🖼️ Open Gallery
+                    </button>
+                    <button class="btn btn-secondary" onclick="showView('aboutView')">
+                        About This App
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <div id="featuresView" class="view">
             <header class="header">
                 <button class="btn-back" onclick="showView('homeView')">← Back</button>
                 <h1>Device Features</h1>
             </header>
+            
             <main class="features-content">
-                
                 <section class="feature-section">
                     <h2>📍 Geolocation</h2>
-                    <p class="feature-description">Get your current GPS coordinates.</p>
+                    <p class="feature-description">Get your current coordinates using the device's GPS.</p>
                     <button class="btn btn-primary" onclick="getLocation()">Get Location</button>
+                    
                     <div id="locationStatus" class="info-message hidden"></div>
+                    
                     <div id="locationResult" class="result-box hidden">
-                        <p><strong>Latitude:</strong> <span id="latitude"></span></p>
-                        <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+                        <p><strong>Latitude:</strong> <span id="latitude">--</span></p>
+                        <p><strong>Longitude:</strong> <span id="longitude">--</span></p>
                     </div>
                 </section>
 
                 <section class="feature-section">
                     <h2>📸 Camera</h2>
-                    <p class="feature-description">Capture a photo and save it to gallery.</p>
+                    <p class="feature-description">Take a photo using your device's camera. Photos are automatically saved to your gallery.</p>
                     <button class="btn btn-primary" onclick="openCamera()">Open Camera</button>
+                    
                     <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
                     
                     <div id="cameraResult" class="result-box hidden">
-                        <p>Last captured:</p>
-                        <img id="capturedImage" src="" alt="Captured photo" style="max-width: 100%; border-radius: 8px;">
+                        <p>Last captured photo:</p>
+                        <img id="capturedImage" src="" alt="Captured photo" style="max-width: 100%; border-radius: 12px; margin-top: 10px;">
                     </div>
                 </section>
 
                 <section class="feature-section">
                     <h2>🔔 Notifications</h2>
-                    <p class="feature-description">Test browser push notifications.</p>
+                    <p class="feature-description">Test the Web Notifications API to receive alerts.</p>
                     <button class="btn btn-primary" onclick="sendNotification()">Send Notification</button>
+                    
                     <div id="notificationStatus" class="info-message hidden"></div>
                 </section>
 
                 <section class="feature-section">
                     <h2>📳 Vibration</h2>
-                    <p class="feature-description">Feel the haptic feedback.</p>
+                    <p class="feature-description">Trigger a vibration pattern on supported devices.</p>
                     <button class="btn btn-primary" onclick="testVibration()">Test Vibration</button>
                 </section>
-
             </main>
         </div>
 
         <div id="galleryView" class="view">
             <header class="header">
                 <button class="btn-back" onclick="showView('homeView')">← Back</button>
-                <h1>Twoja Galeria</h1>
+                <h1>Photo Gallery</h1>
             </header>
+            
             <main class="gallery-content">
-                <div id="galleryGrid" class="gallery-grid"></div>
-                <p id="galleryEmpty" class="info-message">Brak zapisanych zdjęć.</p>
+                <div id="galleryGrid" class="gallery-grid">
+                    </div>
+                <p id="galleryEmpty" class="info-message">Your gallery is empty. Take some photos first!</p>
             </main>
         </div>
+
+        <div id="aboutView" class="view">
+            <header class="header">
+                <button class="btn-back" onclick="showView('homeView')">← Back</button>
+                <h1>About This App</h1>
+            </header>
+            
+            <main class="about-content">
+                <section class="info-section">
+                    <h2>What is a PWA?</h2>
+                    <p>A Progressive Web App (PWA) is a type of application software delivered through the web, built using common web technologies including HTML, CSS and JavaScript. It is intended to work on any platform that uses a standards-compliant browser.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Key Features</h2>
+                    <ul class="info-list">
+                        <li><strong>Installable:</strong> Can be added to your home screen</li>
+                        <li><strong>Offline Support:</strong> Works even without an internet connection</li>
+                        <li><strong>Native Features:</strong> Access to Camera, GPS, and Notifications</li>
+                        <li><strong>Responsive:</strong> Works on both mobile and desktop</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Technologies Used</h2>
+                    <ul class="info-list">
+                        <li>IndexedDB - For permanent photo storage</li>
+                        <li>Service Worker API - For offline caching</li>
+                        <li>Geolocation API - For location access</li>
+                        <li>Camera API - For photo capture</li>
+                        <li>Vibration API - For tactile feedback</li>
+                    </ul>
+                </section>
+            </main>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
