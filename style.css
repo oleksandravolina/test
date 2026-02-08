@@ -61,19 +61,23 @@ body {
 .app-container {
     max-width: 500px;
     margin: 0 auto;
-    padding: calc(var(--spacing-unit) * 2);
+    padding: calc(var(--spacing-unit) * 3);
     position: relative;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* View Management */
 .view {
     display: none;
+    flex: 1; /* To sprawia, że widok rozciąga się na cały ekran */
+    flex-direction: column;
     animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .view.active {
-    display: block;
+    display: flex; /* Zmieniamy z block na flex */
 }
 
 @keyframes fadeIn {
