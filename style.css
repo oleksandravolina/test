@@ -71,13 +71,13 @@ body {
 /* View Management */
 .view {
     display: none;
-    flex: 1; /* To sprawia, że widok rozciąga się na cały ekran */
+    flex: 1; 
     flex-direction: column;
     animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .view.active {
-    display: flex; /* Zmieniamy z block na flex */
+    display: flex; 
 }
 
 @keyframes fadeIn {
@@ -132,7 +132,7 @@ body {
     box-shadow: 0 4px 15px rgba(166, 220, 231, 0.3);
 }
 
-/* --- SEKCJA GALERII (NOWOŚĆ, DOPASOWANA DO TWOJEGO STYLU) --- */
+/* --- SEKCJA GALERII  */
 
 .gallery-grid {
     display: grid;
@@ -176,7 +176,7 @@ body {
     justify-content: center;
 }
 
-/* --- POZOSTAŁE TWOJE ORYGINALNE STYLE --- */
+
 
 .feature-section {
     background: var(--glass-bg-light);
